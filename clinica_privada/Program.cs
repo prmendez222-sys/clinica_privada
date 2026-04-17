@@ -53,6 +53,6 @@
         this.Nombre = Nombre;
         this.Dpi = dpi;
         this.Telefono = Telefono;
-        this.Edad = edad;
+        this.Edad = Edad;
     }
 }
