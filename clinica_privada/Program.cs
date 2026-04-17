@@ -1,4 +1,19 @@
-﻿class Paciente
+﻿Console.WriteLine("ingrese los datos del paciente");
+Console.WriteLine();
+Console.Write("ingrese Nombre: ");
+string nombre=Console.ReadLine();
+Console.Write("numero de DPI: ");
+long dpi = long.Parse(Console.ReadLine());
+Console.Write("numero de telefono: ");
+int telefono=int.Parse(Console.ReadLine());
+Console.Write("edad: ");
+int edad=int.Parse(Console.ReadLine());
+
+int cantidad=dpi.ToString().Length;
+Paciente p1 = new Paciente(nombre,dpi,telefono,edad);
+
+p1.mostrarPaciente();
+class Paciente
 {
 	private string nombre;
 	private long dpi;
@@ -55,4 +70,12 @@
         this.Telefono = Telefono;
         this.Edad = Edad;
     }
+
+	public void mostrarPaciente()
+	{
+		Console.WriteLine("nombre del paciente: "+Nombre);
+		Console.WriteLine("Dpi: "+Dpi);
+		Console.WriteLine("Numero de Telefono: "+ Telefono);
+		Console.WriteLine("edad del paciente: "+Edad);
+	}
 }
