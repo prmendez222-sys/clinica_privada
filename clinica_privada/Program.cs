@@ -12,6 +12,7 @@ int edad=int.Parse(Console.ReadLine());
 int cantidad=dpi.ToString().Length;
 Paciente p1 = new Paciente(nombre,dpi,telefono,edad);
 
+Console.WriteLine();
 p1.mostrarPaciente();
 class Paciente
 {
@@ -47,9 +48,9 @@ class Paciente
 		get { return dpi; }
 		set 
 		{
-			int cantidad=value.ToString().Length;
-			if (cantidad == 13) dpi = value;
-			else Console.WriteLine("el DPI no contiene 13 digitos");
+			int cantidad = value.ToString().Length;
+			if (cantidad==13) dpi = value;
+			else Console.WriteLine("el DPI no contiene 13 digitos ");
 		}
 	}
 
@@ -66,7 +67,7 @@ class Paciente
 	public Paciente(string Nombre, long Dpi, int Telefono, int Edad)
     {
         this.Nombre = Nombre;
-        this.Dpi = dpi;
+        this.Dpi = Dpi;
         this.Telefono = Telefono;
         this.Edad = Edad;
     }
