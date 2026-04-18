@@ -1,19 +1,46 @@
-﻿Console.WriteLine("ingrese los datos del paciente");
-Console.WriteLine();
-Console.Write("ingrese Nombre: ");
-string nombre=Console.ReadLine();
-Console.Write("numero de DPI: ");
-long dpi = long.Parse(Console.ReadLine());
-Console.Write("numero de telefono: ");
-int telefono=int.Parse(Console.ReadLine());
-Console.Write("edad: ");
-int edad=int.Parse(Console.ReadLine());
+﻿bool error=false; long dpi; int telefono,edad; string nombre;
 
-int cantidad=dpi.ToString().Length;
-Paciente p1 = new Paciente(nombre,dpi,telefono,edad);
+do
+{
+    Console.WriteLine("ingrese los datos del paciente");
+    Console.WriteLine();
+    Console.Write("ingrese Nombre: ");
+    nombre = Console.ReadLine();
 
-Console.WriteLine();
-p1.mostrarPaciente();
+    do
+    {
+        Console.Write("numero de DPI: ");
+        error = long.TryParse(Console.ReadLine(), out dpi);
+    } while (!error);
+
+    do
+    {
+        Console.Write("numero de telefono: ");
+        error = int.TryParse(Console.ReadLine(), out telefono);
+    } while (!error);
+
+    do
+    {
+        Console.Write("edad: ");
+        error = int.TryParse(Console.ReadLine(), out edad);
+    } while (!error);
+    try
+	{
+        Paciente p1 = new Paciente(nombre, dpi, telefono, edad);
+        Console.WriteLine();
+        p1.mostrarPaciente();
+        error = true;
+    }catch(Exception ex)
+	{
+		Console.WriteLine();
+		Console.WriteLine(ex.Message);
+		Console.WriteLine("presione Enter para continuar");
+		Console.ReadLine();
+		Console.Clear();
+		error = false;
+	}
+} while (!error);
+
 class Paciente
 {
 	private string nombre;
@@ -27,7 +54,7 @@ class Paciente
 		set 
 		{
 			if (value >= 0) edad = value;
-			else Console.WriteLine("edad no valida");
+			else throw new Exception("edad no valida");
 		}
 	}
 
@@ -39,7 +66,7 @@ class Paciente
 		{ 
 			int cantidad=value.ToString().Length;
 			if (cantidad == 8) telefono = value;
-			else Console.WriteLine("numero de telefono no valido");
+			else throw new Exception("numero de telefono no valido");
 		}
 	}
 
@@ -50,7 +77,7 @@ class Paciente
 		{
 			int cantidad = value.ToString().Length;
 			if (cantidad==13) dpi = value;
-			else Console.WriteLine("el DPI no contiene 13 digitos ");
+			else throw new Exception("el DPI no contiene 13 digitos ");
 		}
 	}
 
@@ -60,7 +87,7 @@ class Paciente
 		set 
 		{
 			if (value.Length > 2) nombre = value;
-			else Console.WriteLine("el nombre debe contener al menos 3 caracteres");
+			else if(value.Length<2 || string.IsNullOrEmpty(value)) throw new Exception("el nombre debe contener al menos 3 caracteres");
 		}
 	}
 
