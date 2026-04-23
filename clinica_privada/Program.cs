@@ -1,45 +1,69 @@
-﻿bool error=false; long dpi; int telefono,edad; string nombre;
+﻿using System;
+using System.IO;
+
+bool error=false; long dpi; int telefono,edad; string nombre,respuesta;
+
+string ruta = Path.Combine(
+          Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+          "pacientes.txt"
+      );
 
 do
 {
-    Console.WriteLine("ingrese los datos del paciente");
-    Console.WriteLine();
-    Console.Write("ingrese Nombre: ");
-    nombre = Console.ReadLine();
 
-    do
-    {
-        Console.Write("numero de DPI: ");
-        error = long.TryParse(Console.ReadLine(), out dpi);
-    } while (!error);
-
-    do
-    {
-        Console.Write("numero de telefono: ");
-        error = int.TryParse(Console.ReadLine(), out telefono);
-    } while (!error);
-
-    do
-    {
-        Console.Write("edad: ");
-        error = int.TryParse(Console.ReadLine(), out edad);
-    } while (!error);
-    try
+	do
 	{
-        Paciente p1 = new Paciente(nombre, dpi, telefono, edad);
-        Console.WriteLine();
-        p1.mostrarPaciente();
-        error = true;
-    }catch(Exception ex)
-	{
+		Console.WriteLine("ingrese los datos del paciente");
 		Console.WriteLine();
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("presione Enter para continuar");
-		Console.ReadLine();
-		Console.Clear();
-		error = false;
-	}
-} while (!error);
+		Console.Write("ingrese Nombre: ");
+		nombre = Console.ReadLine();
+
+		do
+		{
+			Console.Write("numero de DPI: ");
+			error = long.TryParse(Console.ReadLine(), out dpi);
+		} while (!error);
+
+		do
+		{
+			Console.Write("numero de telefono: ");
+			error = int.TryParse(Console.ReadLine(), out telefono);
+		} while (!error);
+
+		do
+		{
+			Console.Write("edad: ");
+			error = int.TryParse(Console.ReadLine(), out edad);
+		} while (!error);
+		try
+		{
+			Paciente p1 = new Paciente(nombre, dpi, telefono, edad);
+			Console.WriteLine();
+			p1.GuardarEnArchivo(ruta);
+			p1.mostrarPaciente();
+			error = true;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine();
+			Console.WriteLine(ex.Message);
+			Console.WriteLine("presione Enter para continuar");
+			Console.ReadLine();
+			Console.Clear();
+			error = false;
+		}
+	} while (!error);
+
+	Console.WriteLine();
+	do
+	{
+		Console.WriteLine("desea ingresar otro Paciente: ");
+		respuesta= Console.ReadLine();
+	} while (respuesta!="si" && respuesta!="no");
+
+	if (respuesta == "si") Console.Clear();
+
+} while (respuesta=="si");
 
 class Paciente
 {
@@ -55,6 +79,7 @@ class Paciente
 		{
 			if (value >= 0) edad = value;
 			else throw new Exception("edad no valida");
+
 		}
 	}
 
@@ -106,4 +131,17 @@ class Paciente
 		Console.WriteLine("Numero de Telefono: "+ Telefono);
 		Console.WriteLine("edad del paciente: "+Edad);
 	}
+
+	public string ObtenerDatos()
+	{
+		return "Nombre: " + Nombre + Environment.NewLine +
+			   "DPI: " + Dpi + Environment.NewLine +
+			   "Telefono: " + Telefono + Environment.NewLine +
+			   "edad: " + edad + Environment.NewLine+
+			   "____________________________________"+Environment.NewLine;
+	}
+    public void GuardarEnArchivo(string ruta)
+    {
+        File.AppendAllText(ruta, ObtenerDatos());
+    }
 }
